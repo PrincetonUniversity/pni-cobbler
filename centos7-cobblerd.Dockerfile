@@ -1,0 +1,54 @@
+FROM centos:7
+
+MAINTAINER gmcgrath@princeton.edu<Garrett McGrath>
+
+## as this is a systemd based container a different stop signal is required
+STOPSIGNAL SIGRTMIN+3
+
+## Lifted from the centos docker container documentation: https://hub.docker.com/_/centos/
+ENV container docker
+RUN (cd /lib/systemd/system/sysinit.target.wants/; for i in *; do [ $i == \
+systemd-tmpfiles-setup.service ] || rm -f $i; done); \
+rm -f /lib/systemd/system/multi-user.target.wants/*;\
+rm -f /etc/systemd/system/*.wants/*;\
+rm -f /lib/systemd/system/local-fs.target.wants/*; \
+rm -f /lib/systemd/system/sockets.target.wants/*udev*; \
+rm -f /lib/systemd/system/sockets.target.wants/*initctl*; \
+rm -f /lib/systemd/system/basic.target.wants/*;\
+rm -f /lib/systemd/system/anaconda.target.wants/*;
+VOLUME [ "/sys/fs/cgroup" ]
+
+
+
+## we need epel for the cobblerd service
+RUN yum install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+RUN yum -y install epel-release
+
+## we'll be using tftp-server instead of xinet.d to handle those responsibilities. epel provides cobbler and mod_auth_cas
+
+RUN yum -y install cobbler cobbler-web syslinux pykickstart \
+    tftp-server tftp gettext httpd mod_auth_cas augeas \
+    && yum clean all
+
+RUN systemctl enable httpd; systemctl enable cobblerd; systemctl enable tftp
+
+COPY ./apache/cobbler_web.conf /etc/httpd/conf.d/cobbler_web.conf
+
+COPY ./apache/cas.conf /etc/httpd/conf.d/cas.conf
+
+COPY ./cobblerd/augeas-modifications.augfile /opt/
+
+COPY ./cobblerd/users.conf.template /etc/cobbler/users.conf.template
+### Augeus config changes.
+RUN augtool -b -f /opt/augeas-modifications.augfile -s -e
+
+COPY docker-entrypoint.sh /opt/docker-entrypoint.sh
+
+RUN chmod +x /opt/docker-entrypoint.sh
+
+## remote access to this host will be handled via traefik
+EXPOSE 69
+EXPOSE 80
+
+
+CMD ["/opt/docker-entrypoint.sh"]

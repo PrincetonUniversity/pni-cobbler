@@ -1,0 +1,39 @@
+version: '3'
+services:
+  cobblerd:
+    env_file:
+      - .env
+    container_name: 'cobblerd'
+    build:
+      context: .
+      dockerfile: 'centos7-cobblerd.Dockerfile'
+    ports:
+      - 69:69
+    networks:
+      - default
+      - proxy
+    # tmpfs:
+    #   - /run
+    #   - /tmp
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    # privileged: true
+    cap_add:
+      - SYS_ADMIN
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.cobblerd-http.entrypoints=http"
+      - "traefik.http.routers.cobblerd-https.entrypoints=https"
+      - "traefik.http.routers.cobblerd-https.tls=true"
+      - "traefik.http.routers.cobblerd-https.tls.certresolver=letsencrypt-resolver"
+      - "traefik.http.routers.cobblerd-http.middlewares=cobblerd-redirectscheme@docker"
+      - "traefik.http.routers.cobblerd-http.rule=Host(`${SERVICEHOSTNAME}`)"
+      - "traefik.http.routers.cobblerd-https.rule=Host(`${SERVICEHOSTNAME}`)"
+      - "traefik.http.middlewares.cobblerd-redirectscheme.redirectscheme.scheme=https"
+      - "traefik.http.middlewares.cobblerd-redirectscheme.redirectscheme.permanent=true"
+      - "traefik.http.services.cobblerd.loadbalancer.server.port=80"
+      - "traefik.docker.network=proxy"
+
+networks:
+  proxy:
+    external: true
