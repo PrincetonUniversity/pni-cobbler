@@ -11,6 +11,13 @@ cat /etc/cobbler/users.conf
 
 cat /etc/httpd/conf.d/cobbler_web.conf | envsubst > /etc/httpd/conf.d/cobbler_web.conf
 cat /etc/httpd/conf.d/cas.conf | envsubst > /etc/httpd/conf.d/cas.conf
+
+## smoke test for tftp
+# chmod 777 /var/lib/tftpboot
+echo "hello test file" > /var/lib/tftpboot/hello.txt
+ls -ltha /var/lib/tftpboot
+
+
 ##### This will start systemd launching all services.
 # exec /usr/sbin/init
 exec /usr/lib/systemd/systemd --log-target=console --show-status

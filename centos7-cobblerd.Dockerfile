@@ -30,7 +30,9 @@ RUN yum -y install cobbler cobbler-web syslinux pykickstart \
     tftp-server tftp gettext httpd mod_auth_cas augeas \
     && yum clean all
 
-RUN systemctl enable httpd; systemctl enable cobblerd; systemctl enable tftp
+RUN systemctl enable httpd \
+    && systemctl enable cobblerd \
+    && systemctl enable tftp
 
 COPY ./apache/cobbler_web.conf /etc/httpd/conf.d/cobbler_web.conf
 

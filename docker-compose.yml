@@ -8,7 +8,7 @@ services:
       context: .
       dockerfile: 'centos7-cobblerd.Dockerfile'
     ports:
-      - 69:69
+      - "69:69/udp"
     networks:
       - default
       - proxy
