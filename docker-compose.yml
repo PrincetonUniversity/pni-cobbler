@@ -4,20 +4,21 @@ services:
     env_file:
       - .env
     container_name: 'cobblerd'
+    hostname: ${SERVICEHOSTNAME}
     build:
       context: .
       dockerfile: 'centos7-cobblerd.Dockerfile'
     ports:
       - "69:69/udp"
+      - "25150:25150/udp"
+      - "9000:80"
+    expose:
+      - '80'
     networks:
       - default
       - proxy
-    # tmpfs:
-    #   - /run
-    #   - /tmp
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
-    # privileged: true
     cap_add:
       - SYS_ADMIN
     labels:
