@@ -11,7 +11,7 @@ services:
     ports:
       - "69:69/udp"
       - "25150:25150/udp"
-      - "8080:80"
+      - "9000:80"
     expose:
       - '80'
     networks:
