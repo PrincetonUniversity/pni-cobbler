@@ -14,11 +14,8 @@ LoadModule auth_cas_module /usr/lib/apache2/modules/mod_auth_cas.so
     #CASCertificatePath /etc/pki/tls/certs/
     #CASValidateServer Off
     CASValidateDepth 9
-    #CASCookiePath /var/lib/cas/
-    CASCookiePath /tmp/cas/
     CASLoginURL ${CASLOGINURL}
     CASValidateURL ${CASVALIDATEURL}
-    #CASProxyValidateURL ${CASPROXYVALIDATEURL}
     CASTimeout 864000
     CASIdleTimeout 864000
 </IfModule>

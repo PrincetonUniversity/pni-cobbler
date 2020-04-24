@@ -1,37 +1,31 @@
 # This configuration file enables the cobbler web
 # interface (django version)
 
-ServerName ${SERVICEHOSTNAME}
-
 <Directory "/usr/share/cobbler/web/">
-        <IfModule mod_ssl.c>
-            SSLRequireSSL
-        </IfModule>
-        <IfModule mod_nss.c>
-            NSSRequireSSL
-        </IfModule>
+#        <IfModule mod_ssl.c>
+#            SSLRequireSSL
+#        </IfModule>
+#        <IfModule mod_nss.c>
+#            NSSRequireSSL
+#        </IfModule>
         SetEnv VIRTUALENV
         Options Indexes MultiViews
         AllowOverride None
-
-
-        ## auth configuration
-        AuthType CAS
-        
-        Require valid-user
-
+        Order allow,deny
+        Allow from all
 </Directory>
 
 <Directory "/var/www/cobbler_webui_content/">
-        <IfModule mod_ssl.c>
-            SSLRequireSSL
-        </IfModule>
-        <IfModule mod_nss.c>
-            NSSRequireSSL
-        </IfModule>
+#        <IfModule mod_ssl.c>
+#            SSLRequireSSL
+#        </IfModule>
+#        <IfModule mod_nss.c>
+#            NSSRequireSSL
+#        </IfModule>
         Options +Indexes +FollowSymLinks
         AllowOverride None
-        Require all granted
+        Order allow,deny
+        Allow from all
 </Directory>
 
 # Use separate process group for wsgi

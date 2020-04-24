@@ -2,20 +2,31 @@
 
 ## quick monkey patch for a missing file that prevents network systemd from starting.
 touch /etc/sysconfig/network
+mkdir /tmp/cas
+
+## cobbler tweaks
+# RUN  envsubst < /opt/augeas-modifications.augfile.template | tee /opt/augeas-modifications.augfile \
+#    && augtool -b -f /opt/augeas-modifications.augfile -s -e
+
+envsubst < /opt/augeas-modifications.augfile.template | tee /opt/augeas-modifications.augfile
+
+augtool -b -f /opt/augeas-modifications.augfile -s -e
+
 
 ## create whitelist for accsss to web ui.
 cat /etc/cobbler/users.conf.template | envsubst > /etc/cobbler/users.conf
 cat /etc/cobbler/users.conf
 
 ##
-
-cat /etc/httpd/conf.d/cobbler_web.conf | envsubst > /etc/httpd/conf.d/cobbler_web.conf
-cat /etc/httpd/conf.d/cas.conf | envsubst > /etc/httpd/conf.d/cas.conf
+mv /etc/httpd/conf.d/cobbler_web.conf /etc/httpd/conf.d/cobbler_web.conf.old
+cat /etc/httpd/conf.d/cobbler_web.conf.template | envsubst > /etc/httpd/conf.d/cobbler_web.conf
+cat /etc/httpd/conf.d/cas.conf.template | envsubst > /etc/httpd/conf.d/cas.conf
+rm -v /etc/httpd/conf.d/cobbler.conf
+rm -v /etc/httpd/conf.d/welcome.conf
 
 ## smoke test for tftp
 # chmod 777 /var/lib/tftpboot
 echo "hello test file" > /var/lib/tftpboot/hello.txt
-ls -ltha /var/lib/tftpboot
 
 
 ##### This will start systemd launching all services.

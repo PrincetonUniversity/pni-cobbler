@@ -34,16 +34,17 @@ RUN systemctl enable httpd \
     && systemctl enable cobblerd \
     && systemctl enable tftp
 
-COPY ./apache/cobbler_web.conf /etc/httpd/conf.d/cobbler_web.conf
+## silly hack to make apache write logs to std out.
+RUN ln -sf /proc/self/fd/1 /var/log/httpd/access.log && \
+    ln -sf /proc/self/fd/1 /var/log/httpd/error.log
 
-COPY ./apache/cas.conf /etc/httpd/conf.d/cas.conf
 
-COPY ./cobblerd/augeas-modifications.augfile /opt/
+COPY ./apache/cobbler_web.conf.template ./apache/cas.conf.template /etc/httpd/conf.d/
+
+COPY ./cobblerd/augeas-modifications.augfile.template /opt/
 
 COPY ./cobblerd/users.conf.template /etc/cobbler/users.conf.template
 ### Augeus config changes.
-RUN augtool -b -f /opt/augeas-modifications.augfile -s -e
-
 COPY docker-entrypoint.sh /opt/docker-entrypoint.sh
 
 RUN chmod +x /opt/docker-entrypoint.sh
