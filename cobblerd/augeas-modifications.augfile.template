@@ -2,7 +2,7 @@
 
 ##Tweaks for cobbler modules.conf file
 set /files/etc/cobbler/modules.conf/authentication/module authn_passthru
-set /files/etc/cobbler/modules.conf/authorization/module authz_ownership
+#set /files/etc/cobbler/modules.conf/authorization/module authz_ownership
 
 
 ## Tweaks for cobbler settings file.

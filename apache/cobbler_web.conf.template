@@ -8,13 +8,16 @@ LoadModule wsgi_module modules/mod_wsgi.so
 ## WSGI Configs
 WSGISocketPrefix /var/run/wsgi
 
-
 ##logging configs
+ErrorLog /proc/self/fd/1
+TransferLog /proc/self/fd/1
+
+
 #ErrorLog /dev/stderr
 #TransferLog /dev/stdout
 
 
-<VirtualHost _default_:80>
+#<VirtualHost _default_:80>
 
   # Use separate process group for wsgi
 
@@ -31,21 +34,21 @@ WSGISocketPrefix /var/run/wsgi
     Options +ExecCGI
 
     AuthType CAS
-
+    CasScope /
     Require valid-user
 
   </Location>
 
-  DocumentRoot "/usr/share/cobbler/web/"
+#  DocumentRoot "/usr/share/cobbler/web/"
 
   <Directory "/usr/share/cobbler/web/">
 
-    <IfModule mod_ssl.c>
-        SSLRequireSSL
-    </IfModule>
-    <IfModule mod_nss.c>
-        NSSRequireSSL
-    </IfModule>
+#    <IfModule mod_ssl.c>
+#        SSLRequireSSL
+#    </IfModule>
+#    <IfModule mod_nss.c>
+#        NSSRequireSSL
+#    </IfModule>
 
     SetEnv VIRTUALENV
     Options Indexes MultiViews
@@ -60,12 +63,12 @@ WSGISocketPrefix /var/run/wsgi
 
   <Directory "/var/www/cobbler_webui_content/">
 
-    <IfModule mod_ssl.c>
-        SSLRequireSSL
-    </IfModule>
-    <IfModule mod_nss.c>
-        NSSRequireSSL
-    </IfModule>
+#    <IfModule mod_ssl.c>
+#        SSLRequireSSL
+#    </IfModule>
+#    <IfModule mod_nss.c>
+#        NSSRequireSSL
+#    </IfModule>
 
     Options +Indexes +FollowSymLinks
     AllowOverride None
@@ -83,4 +86,4 @@ WSGISocketPrefix /var/run/wsgi
   </IfVersion>
 
 
-</VirtualHost>
+#</VirtualHost>

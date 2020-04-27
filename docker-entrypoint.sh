@@ -21,7 +21,7 @@ cat /etc/cobbler/users.conf
 mv /etc/httpd/conf.d/cobbler_web.conf /etc/httpd/conf.d/cobbler_web.conf.old
 cat /etc/httpd/conf.d/cobbler_web.conf.template | envsubst > /etc/httpd/conf.d/cobbler_web.conf
 cat /etc/httpd/conf.d/cas.conf.template | envsubst > /etc/httpd/conf.d/cas.conf
-rm -v /etc/httpd/conf.d/cobbler.conf
+# rm -v /etc/httpd/conf.d/cobbler.conf
 rm -v /etc/httpd/conf.d/welcome.conf
 
 ## smoke test for tftp
@@ -31,5 +31,8 @@ echo "hello test file" > /var/lib/tftpboot/hello.txt
 
 ##### This will start systemd launching all services.
 # exec /usr/sbin/init
-exec /usr/lib/systemd/systemd --log-target=console --show-status
+# exec /usr/lib/systemd/systemd --log-target=console --show-status
 #exec /sbin/init
+
+# exec /usr/bin/supervisord -c /etc/supervisord.conf
+/usr/bin/supervisord -c /etc/supervisord.conf
