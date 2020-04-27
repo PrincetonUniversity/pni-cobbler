@@ -2,12 +2,12 @@
 # interface (django version)
 
 <Directory "/usr/share/cobbler/web/">
-#        <IfModule mod_ssl.c>
-#            SSLRequireSSL
-#        </IfModule>
-#        <IfModule mod_nss.c>
-#            NSSRequireSSL
-#        </IfModule>
+        <IfModule mod_ssl.c>
+            SSLRequireSSL
+        </IfModule>
+        <IfModule mod_nss.c>
+            NSSRequireSSL
+        </IfModule>
         SetEnv VIRTUALENV
         Options Indexes MultiViews
         AllowOverride None
@@ -16,12 +16,12 @@
 </Directory>
 
 <Directory "/var/www/cobbler_webui_content/">
-#        <IfModule mod_ssl.c>
-#            SSLRequireSSL
-#        </IfModule>
-#        <IfModule mod_nss.c>
-#            NSSRequireSSL
-#        </IfModule>
+        <IfModule mod_ssl.c>
+            SSLRequireSSL
+        </IfModule>
+        <IfModule mod_nss.c>
+            NSSRequireSSL
+        </IfModule>
         Options +Indexes +FollowSymLinks
         AllowOverride None
         Order allow,deny
