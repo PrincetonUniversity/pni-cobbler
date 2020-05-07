@@ -1,12 +1,13 @@
 ## this file is given to augtool to make tweaks to files on the system.
 
 ##Tweaks for cobbler modules.conf file
-set /files/etc/cobbler/modules.conf/authentication/module authn_passthru
+#set /files/etc/cobbler/modules.conf/authentication/module authn_passthru
+set /files/etc/cobbler/modules.conf/authentication/module authn_denyall
 #set /files/etc/cobbler/modules.conf/authorization/module authz_ownership
-
+set /files/etc/cobbler/modules.conf/authorization/module authz_allowall
 
 ## Tweaks for cobbler settings file.
 set /files/etc/cobbler/settings/pxe_just_once 1
 set /files/etc/cobbler/settings/server ${SERVICEHOSTNAME}
 set /files/etc/cobbler/settings/client_use_https 0
-set /files/etc/cobbler/settings/http_port 80
+set /files/etc/cobbler/settings/http_port 8888
