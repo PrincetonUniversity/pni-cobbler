@@ -17,7 +17,7 @@ TransferLog /proc/self/fd/1
 #TransferLog /dev/stdout
 
 
-<VirtualHost _default_:80>
+<VirtualHost _default_:${CLIENTPORT}>
   # Use separate process group for wsgi
 
   WSGIScriptAlias /cobbler_web /usr/share/cobbler/web/cobbler.wsgi

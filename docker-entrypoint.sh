@@ -18,11 +18,12 @@ cat /etc/cobbler/users.conf.template | envsubst > /etc/cobbler/users.conf
 cat /etc/cobbler/users.conf
 
 ##
-mv /etc/httpd/conf.d/cobbler_web.conf /etc/httpd/conf.d/cobbler_web.conf.old
-cat /etc/httpd/conf.d/cobbler_web.conf.template | envsubst > /etc/httpd/conf.d/cobbler_web.conf
-cat /etc/httpd/conf.d/cas.conf.template | envsubst > /etc/httpd/conf.d/cas.conf
+## apache customizations currently disabled, allow stock configuration to come up just using port ${CLIENTPORT}
+#mv /etc/httpd/conf.d/cobbler_web.conf /etc/httpd/conf.d/cobbler_web.conf.old
+#cat /etc/httpd/conf.d/cobbler_web.conf.template | envsubst > /etc/httpd/conf.d/cobbler_web.conf
+#cat /etc/httpd/conf.d/cas.conf.template | envsubst > /etc/httpd/conf.d/cas.conf
 # rm -v /etc/httpd/conf.d/cobbler.conf
-rm -v /etc/httpd/conf.d/welcome.conf
+# rm -v /etc/httpd/conf.d/welcome.conf
 
 ## smoke test for tftp
 # chmod 777 /var/lib/tftpboot

@@ -8,12 +8,16 @@ services:
     build:
       context: .
       dockerfile: 'centos7-cobblerd.Dockerfile'
+    volumes:
+      #- './cobblerdata/varwww:/var/www/cobbler'
+      #- './cobblerdata/varlib:/var/lib/cobbler'
+      - './cobblerdata/isos:/opt/import'
     ports:
       - "69:69/udp"
       - "25150:25150/udp"
-      - "8888:8888"
+      - "${CLIENTPORT}:${CLIENTPORT}"
     expose:
-      - '80'
+      - "${CLIENTPORT}"
     networks:
       - default
       - proxy

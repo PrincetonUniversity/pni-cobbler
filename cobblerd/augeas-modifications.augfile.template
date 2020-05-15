@@ -10,4 +10,11 @@ set /files/etc/cobbler/modules.conf/authorization/module authz_allowall
 set /files/etc/cobbler/settings/pxe_just_once 1
 set /files/etc/cobbler/settings/server ${SERVICEHOSTNAME}
 set /files/etc/cobbler/settings/client_use_https 0
-set /files/etc/cobbler/settings/http_port 8888
+set /files/etc/cobbler/settings/http_port ${CLIENTPORT}
+set /files/etc/cobbler/settings/next_server ${TFTPSERVER}
+set /files/etc/cobbler/settings/server ${TFTPSERVER}
+
+## tweak apache to server data on port CLIENTPORT
+## WARNING: THIS IS LIKELY TO BREAK IF APACHE UPDATES
+## RECHECK DIRECTIVE USING COMMAND `augtool print /files/etc/httpd/conf/httpd.conf`
+set /files/etc/httpd/conf/httpd.conf/directive[2]/arg ${CLIENTPORT}
