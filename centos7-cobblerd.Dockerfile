@@ -19,6 +19,7 @@ RUN yum install -y          \
 ## secondary deps
 RUN yum -y install pykickstart tftp gettext mod_auth_cas augeas supervisor \
     p7zip p7zip-plugins wget curl python36-mod_wsgi cobbler cobbler_web \
+    python36-yamlordereddictloader \
     && yum clean all
 
 COPY ./apache/cobbler_web.conf.template ./apache/cas.conf.template /etc/httpd/conf.d/
@@ -28,6 +29,8 @@ COPY ./cobblerd/augeas-modifications.augfile.template /opt/
 COPY ./cobblerd/users.conf.template /etc/cobbler/users.conf.template
 ### Augeus config changes.
 COPY docker-entrypoint.sh /opt/docker-entrypoint.sh
+
+COPY ./cobblerimporter/base.py /opt/base.py
 
 RUN mkdir -p /etc/supervisord/conf.d
 

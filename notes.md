@@ -1,6 +1,6 @@
 
 ## cobbler distro setup:
-```
+```bash
 1  bash /opt/import/quickstart-cobbler.sh
 2  cobbler sync
 3  cobbler sync
@@ -99,4 +99,92 @@
 96  cobbler sync
 97  cobbler distro edit --name=SD7pxe --ksmeta="tree=http://springdale.math.ias.edu/data/puias/7/x86_64/os"
 98  cobbler sync
+```
+
+## XML RPC Access via python
+```bash
+[root@10 /]# python
+Python 2.7.5 (default, Apr  2 2020, 13:16:51)
+[GCC 4.8.5 20150623 (Red Hat 4.8.5-39)] on linux2
+Type "help", "copyright", "credits" or "license" for more information.
+>>> exit()
+[root@10 /]# python3
+Python 3.6.8 (default, Apr  2 2020, 13:34:55)
+[GCC 4.8.5 20150623 (Red Hat 4.8.5-39)] on linux
+Type "help", "copyright", "credits" or "license" for more information.
+>>> import xmlrpclib
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+ModuleNotFoundError: No module named 'xmlrpclib'
+>>> exit()
+[root@10 /]# pip
+pip3     pip-3    pip-3.6  pip3.6   
+[root@10 /]# pip3 install xmlrpclib
+WARNING: Running pip install with root privileges is generally not a good idea. Try `pip3 install --user` instead.
+Collecting xmlrpclib
+  Could not find a version that satisfies the requirement xmlrpclib (from versions: )
+No matching distribution found for xmlrpclib
+[root@10 /]# python3
+Python 3.6.8 (default, Apr  2 2020, 13:34:55)
+[GCC 4.8.5 20150623 (Red Hat 4.8.5-39)] on linux
+Type "help", "copyright", "credits" or "license" for more information.
+>>> import xmlrpc
+>>> server = xmlrpc.server("http://10.140.0.101:9000/cobbler_api")
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+AttributeError: module 'xmlrpc' has no attribute 'server'
+>>> server = xmlrpc.Server("http://10.140.0.101:9000/cobbler_api")
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+AttributeError: module 'xmlrpc' has no attribute 'Server'
+>>> server = xmlrpc.client.ServerProxy("http://10.140.0.101:9000/cobbler_api")
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+AttributeError: module 'xmlrpc' has no attribute 'client'
+>>> server = client.ServerProxy("http://10.140.0.101:9000/cobbler_api")
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+NameError: name 'client' is not defined
+>>> server = xmlrpc.Server("http://10.140.0.101:9000/cobbler_api")
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+AttributeError: module 'xmlrpc' has no attribute 'Server'
+>>> import xmlrpc.client
+>>> server = xmlrpc.client.ServerProxy("http://10.140.0.101:9000/cobbler_api")
+>>> ss = read('/var/lib/cobbler/web.ss')
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+NameError: name 'read' is not defined
+>>> from pathlib import Path
+>>> token = Path('/var/lib/cobbler/web.ss').read_text()
+>>> print(token)
+xxxxxxxxxxxx
+>>> shandle = server.login('',token)
+>>> distro_id = server.new_distro(shandle)
+>>> print(distro_id)
+___NEW___distro::TAmAJCctODskqJm7nXAVAEZXcto2lDTc8Q==
+>>> server.modify_distro(distro_id, 'name', 'sd7', shandle)
+True
+>>> server.modify_distro(distro_id, 'kernel', '/opt/import/isos/sd7-pxe/vmlinuz', shandle)
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+  File "/usr/lib64/python3.6/xmlrpc/client.py", line 1112, in __call__
+    return self.__send(self.__name, args)
+  File "/usr/lib64/python3.6/xmlrpc/client.py", line 1452, in __request
+    verbose=self.__verbose
+  File "/usr/lib64/python3.6/xmlrpc/client.py", line 1154, in request
+    return self.single_request(host, handler, request_body, verbose)
+  File "/usr/lib64/python3.6/xmlrpc/client.py", line 1170, in single_request
+    return self.parse_response(resp)
+  File "/usr/lib64/python3.6/xmlrpc/client.py", line 1342, in parse_response
+    return u.close()
+  File "/usr/lib64/python3.6/xmlrpc/client.py", line 656, in close
+    raise Fault(**self._stack[0])
+xmlrpc.client.Fault: <Fault 1: "<class 'cobbler.cexceptions.CX'>:'kernel not found: /opt/import/isos/sd7-pxe/vmlinuz'">
+>>> server.modify_distro(distro_id, 'kernel', '/opt/import/sd7-pxe/vmlinuz', shandle)
+True
+>>> server.modify_distro(distro_id, 'initrd', '/opt/import/sd7-pxe/initrd.img', shandle)
+True
+>>> server.save_distro(distro_id,shandle)
+True
 ```
