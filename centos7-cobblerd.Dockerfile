@@ -20,7 +20,8 @@ RUN yum install -y          \
 RUN yum -y install pykickstart tftp gettext mod_auth_cas augeas supervisor \
     p7zip p7zip-plugins wget curl python36-mod_wsgi cobbler cobbler_web \
     python36-yamlordereddictloader \
-    && yum clean all
+    && yum clean all \
+    && pip3 install -U bios PyYAML
 
 COPY ./apache/cobbler_web.conf.template ./apache/cas.conf.template /etc/httpd/conf.d/
 
