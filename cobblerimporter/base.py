@@ -12,7 +12,7 @@ from pathlib import Path
 
 import bios
 
-return_codes = {"no_profiles_found": 1, "no_distro_files_found": 2}
+return_codes = {"no_profiles_found": 1, "no_distro_files_found": 2, "no_hosts_found": 3}
 
 ## for now this is a brute force setup that pulls a set of configs from envvar and configures.
 
@@ -74,8 +74,32 @@ class cobblerInterface:
         self.serverHandle.save_distro(distro_id, self.sToken)
         pass
 
-    def add_host(self):
-        pass
+    def add_host(self, hDict):
+        host_id = self.serverHandle.new_system(self.sToken)
+
+        self.serverHandle.modify_system(host_id, "name", hDict["name"], self.sToken)
+        self.serverHandle.modify_system(
+            host_id, "hostname", hDict["hostname"], self.sToken
+        )
+
+        for label, interface in hDict["interfaces"].items():
+            self.serverHandle.modify_system(
+                host_id,
+                "modify_interface",
+                {
+                    f"macaddress-{label}": interface["macaddress"],
+                    f"ipaddress-{label}": interface["ipaddress"],
+                },
+                self.sToken,
+            )
+
+        self.serverHandle.modify_system(
+            host_id, "profile", hDict["profile"], self.sToken
+        )
+
+        self.serverHandle.modify_system(host_id, "netboot-enable", "false", self.sToken)
+
+        self.serverHandle.save_system(host_id, self.sToken)
 
     def add_profile(self, pDict):
         profile_id = self.serverHandle.new_profile(self.sToken)
@@ -133,6 +157,19 @@ def main():
     else:
         logging.error("no profiles found, can not proceed. exiting.")
         exit(return_codes["no_profiles_found"])
+
+    hosts_file = f"{confpath}/hosts.yaml"
+
+    if os.path.isfile(hosts_file):
+        logging.debug(f"hosts file {hosts_file} located. loading...")
+        hosts = bios.read(hosts_file)
+        logging.debug(f"Hosts: {hosts}")
+        for label, host in hosts.items():
+            logging.debug(f"add hosts {host}")
+            cobble.add_host(host)
+    else:
+        logging.error("no hosts found, can not proceed. exiting.")
+        exit(return_codes["no_hosts_found"])
 
     cobble.sync()
 
