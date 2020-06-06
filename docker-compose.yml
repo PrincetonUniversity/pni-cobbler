@@ -9,10 +9,8 @@ services:
       context: .
       dockerfile: 'centos7-cobblerd.Dockerfile'
     volumes:
-      #- './cobblerdata/varwww:/var/www/cobbler'
-      #- './cobblerdata/varlib:/var/lib/cobbler'
-      # - './cobblerdata:/opt/import'
-      - './cobblerdata-work:/opt/import'
+      - './cobblerdata:/opt/import'
+      # - './cobblerdata-work:/opt/import'
       - './cobblerimporter:/opt/cobblerimporter'
     ports:
       - "69:69/udp"
