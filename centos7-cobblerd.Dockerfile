@@ -31,7 +31,7 @@ COPY ./cobblerd/users.conf.template /etc/cobbler/users.conf.template
 ### Augeus config changes.
 COPY docker-entrypoint.sh /opt/docker-entrypoint.sh
 
-COPY ./cobblerimporter/base.py /opt/base.py
+COPY ./cobblerimporter /opt/cobblerimporter
 
 RUN mkdir -p /etc/supervisord/conf.d
 

@@ -1,0 +1,13 @@
+## profiles template:
+# profile:
+#   distro: ''
+#   kickstart: ''
+
+vanilla-sd7:
+  name: 'vanilla-sd7'
+  distro: 'sd7'
+  kickstart: '/var/lib/cobbler/kickstarts/sample_end.ks' ## can't use kickstarts anywhere but /var/lib/cobbler/kickstarts - could easily drop full path and hard code if that's the case.
+spock-centos7:
+  name: 'spock-centos7'
+  distro: 'sd7'
+  kickstart: '/var/lib/cobbler/kickstarts/spock7.ks'

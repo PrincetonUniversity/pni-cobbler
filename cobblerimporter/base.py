@@ -24,10 +24,15 @@ return_codes = {"no_profiles_found": 1, "no_distro_files_found": 2, "no_hosts_fo
 cobblerSystemToken = Path("/var/lib/cobbler/web.ss").read_text()
 
 ## these values should absolutely have checks in place to make sure they are set. They currently do not.
+## assumptions made:
+# * this code is run inside a container with servicename and clientport configured as envvars.
+# * distrobutions of python are stored in a subdirectory of the overall config files
+# * config files are found at `/opt/import` inside the container and are readable by the default user the container runs as.
 cobblerServer = os.environ["SERVICEHOSTNAME"]
 cobblerPort = os.environ["CLIENTPORT"]
 confpath = "/opt/import/"
 distropath = confpath + "distros/"
+hostspath = confpath + "hosts/"
 
 
 class cobblerInterface:
@@ -158,16 +163,19 @@ def main():
         logging.error("no profiles found, can not proceed. exiting.")
         exit(return_codes["no_profiles_found"])
 
-    hosts_file = f"{confpath}/hosts.yaml"
+    # hosts_file = f"{confpath}/hosts.yaml"
 
-    if os.path.isfile(hosts_file):
-        logging.debug(f"hosts file {hosts_file} located. loading...")
-        hosts = bios.read(hosts_file)
-        logging.debug(f"Hosts: {hosts}")
-        for label, host in hosts.items():
-            logging.debug(f"add hosts {host}")
-            cobble.add_host(host)
-    else:
+    hosts_found = 0
+    for hostFile in os.listdir(hostspath):
+        if hostFile.endswith(".yml") or hostFile.endswith(".yaml"):
+            hosts_found = 1
+            logging.debug(f"hosts file {hostFile} located. loading...")
+            hosts = bios.read(hostspath + "/" + hostFile)
+            # logging.debug(f"Hosts: {hosts}")
+            for label, host in hosts.items():
+                logging.debug(f"add host: {host}")
+                cobble.add_host(host)
+    if not hosts_found:
         logging.error("no hosts found, can not proceed. exiting.")
         exit(return_codes["no_hosts_found"])
 

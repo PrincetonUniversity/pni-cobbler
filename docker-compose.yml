@@ -11,7 +11,9 @@ services:
     volumes:
       #- './cobblerdata/varwww:/var/www/cobbler'
       #- './cobblerdata/varlib:/var/lib/cobbler'
-      - './cobblerdata:/opt/import'
+      # - './cobblerdata:/opt/import'
+      - './cobblerdata-work:/opt/import'
+      - './cobblerimporter:/opt/cobblerimporter'
     ports:
       - "69:69/udp"
       - "25150:25150/udp"

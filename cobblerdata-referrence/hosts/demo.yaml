@@ -1,0 +1,34 @@
+
+##hosts format:
+# hostname:  ## this is used for hostname
+#   profile: '' ## profile must be present in the profiles yaml files
+#   fqdn: ## optional?
+#   interfaces:
+#     main:
+#       mac: ''
+#       ip: ''
+
+demo00:
+  name: 'demo00'
+  hostname: 'demo00.demodomain.com'
+  interfaces:
+    eth0:
+      ipaddress: '192.168.1.100'
+      macaddress: 'TT:UU:WW:ZZ:YY:XX'
+  profile: 'vanilla-sd7'
+demo01:
+  name: 'demo01'
+  hostname: 'demo01.demodomain.com'
+  interfaces:
+    eth0:
+      ipaddress: '192.168.1.101'
+      macaddress: 'TT:UU:WW:ZZ:YY:XY'
+  profile: 'vanilla-sd7'
+computer-demo00:
+  name: 'cluster00'
+  hostname: 'cluster00.demodomain.com'
+  interfaces:
+    eth0:
+      ipaddress: '192.168.1.110'
+      macaddress: 'TT:UU:WW:ZZ:ZZ:XX'
+  profile: 'spock-centos7'
