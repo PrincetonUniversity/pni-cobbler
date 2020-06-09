@@ -5,4 +5,4 @@ kernel: 'vmlinuz'
 initrd: 'initrd.img'
 ksmeta:
   tree: 'http://springdale.math.ias.edu/data/puias/7.8/x86_64/os/'
-  puppet_server: 'puppet6.127penn.nichebuilt.club'
+  puppet_server: 'puppet6.demodomain.com'

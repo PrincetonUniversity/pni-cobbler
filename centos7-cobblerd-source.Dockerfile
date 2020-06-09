@@ -86,3 +86,5 @@ RUN chmod +x /opt/docker-entrypoint.sh
 
 
 CMD ["/opt/docker-entrypoint.sh"]
+
+COPY ./centos7-cobblerd-source.Dockerfile /centos7-cobblerd-source.Dockerfile
