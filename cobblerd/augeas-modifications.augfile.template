@@ -12,7 +12,7 @@ set /files/etc/cobbler/settings/server ${SERVICEHOSTNAME}
 set /files/etc/cobbler/settings/client_use_https 0
 set /files/etc/cobbler/settings/http_port ${CLIENTPORT}
 set /files/etc/cobbler/settings/next_server ${TFTPSERVER}
-set /files/etc/cobbler/settings/server ${TFTPSERVER}
+#set /files/etc/cobbler/settings/server ${TFTPSERVER}
 set /files/etc/cobbler/settings/default_password_crypted ${DEFAULTROOTHASH}
 
 ## tweak apache to server data on port CLIENTPORT

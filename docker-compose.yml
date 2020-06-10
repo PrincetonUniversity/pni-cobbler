@@ -1,6 +1,7 @@
 version: '3'
 services:
   cobblerd:
+    restart: always
     env_file:
       - .env
     container_name: 'cobblerd'
@@ -16,7 +17,7 @@ services:
       - "69:69/udp"
       - "25150:25150/udp"
       - "${CLIENTPORT}:${CLIENTPORT}"
-    expose:
-      - "${CLIENTPORT}"
-    networks:
-      - default
+    #expose:
+    #  - "${CLIENTPORT}"
+    #networks:
+    #  - default
