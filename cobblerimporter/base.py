@@ -102,7 +102,10 @@ class cobblerInterface:
             host_id, "profile", hDict["profile"], self.sToken
         )
 
-        self.serverHandle.modify_system(host_id, "netboot-enable", "false", self.sToken)
+        # we don't want the system flagging all system for reimage on each restart of the service.
+        self.serverHandle.modify_system(
+            host_id, "netboot-enabled", "false", self.sToken
+        )
 
         self.serverHandle.save_system(host_id, self.sToken)
 

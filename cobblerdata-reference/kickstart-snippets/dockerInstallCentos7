@@ -1,0 +1,9 @@
+
+echo "installing docker"
+## enable yum utils and install repository
+yum install -y yum-utils
+yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+
+#install the service.
+
+yum install -y docker-ce docker-ce-cli containerd.io

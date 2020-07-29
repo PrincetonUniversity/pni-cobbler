@@ -1,0 +1,28 @@
+
+## pull the puppet agent software repo
+yum install -y https://yum.puppet.com/puppet6-release-el-7.noarch.rpm
+
+#install the agent.
+
+yum install -y puppet-agent
+
+#add preamble and set server
+echo '[main]
+  logdir = /var/log/puppet
+  rundir = /var/run/puppet
+  server = $puppet_server
+  ' > /etc/puppetlabs/puppet/puppet.conf
+
+#add certname
+echo "  certname=$hostname" >> /etc/puppetlabs/puppet/puppet.conf
+
+# echo '[agent]
+#    classfile = $vardir/classes.txt
+#    localconfig = $vardir/localconfig' >> /etc/puppetlabs/puppet/puppet.conf
+
+
+## not sure this should be run here?
+/opt/puppetlabs/bin/puppet agent -t
+
+systemctl enable puppet
+systemctl start puppet
