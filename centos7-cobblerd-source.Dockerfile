@@ -12,16 +12,18 @@ RUN yum install -y          \
 # Dev dependencies
     git rsync make dnf-plugins-core     \
     epel-rpm-macros openssl mod_ssl python-sphinx   \
-    python36-coverage python36-devel python36-distro         \
-    python36-future python36-pyflakes python36-pycodestyle    \
-    python36-setuptools python36-requests python36-sphinx rpm-build \
-    python36-mod_wsgi
+    python3-coverage python3-devel python3-distro         \
+    python3-future python3-pyflakes python3-pycodestyle    \
+    python3-setuptools python3-requests python3-sphinx rpm-build \
+    python3-mod_wsgi python3-wheel python-coverage python-pip python3-pip \
+    python36-coverage python36-distro python36-netaddr && \
+    pip install coverage && pip3 install coverage
 
 RUN yum install -y          \
 # Runtime dependencies
-    httpd python36-mod_wsgi python36-pymongo python36-PyYAML         \
-    python36-netaddr python36-simplejson python36-tornado        \
-    python36-django python36-dns python36-ldap3 python36-cheetah        \
+    httpd python3-mod_wsgi python3-pymongo python3-PyYAML         \
+    python3-netaddr python3-simplejson python3-tornado        \
+    python3-django python3-dns python3-ldap3 python3-cheetah        \
     createrepo_c xorriso grub2-efi-ia32-modules grub2-efi-x64-modules   \
     logrotate syslinux systemd-sysv tftp-server fence-agents
 
@@ -48,15 +50,15 @@ RUN yum -y install epel-release
 
 RUN yum install -y          \
 # Runtime dependencies
-    httpd python36-mod_wsgi python36-pymongo python36-PyYAML         \
-    python36-netaddr python36-simplejson python36-tornado        \
-    python36-django python36-dns python36-ldap3 python36-cheetah        \
+    httpd python3-mod_wsgi python3-pymongo python3-PyYAML         \
+    python3-netaddr python3-simplejson python3-tornado        \
+    python3-django python3-dns python3-ldap3 python3-cheetah        \
     createrepo_c xorriso grub2-efi-ia32-modules grub2-efi-x64-modules   \
     logrotate syslinux systemd-sysv tftp-server fence-agents
 
 ## secondary deps
 RUN yum -y install pykickstart tftp gettext mod_auth_cas augeas supervisor \
-    p7zip p7zip-plugins wget curl python36-mod_wsgi && yum clean all \
+    p7zip p7zip-plugins wget curl python3-mod_wsgi && yum clean all \
     && mkdir -p /opt/cobbler-rpms/
 
 ## pull rpms from build step above.

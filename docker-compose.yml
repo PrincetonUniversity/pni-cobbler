@@ -17,7 +17,3 @@ services:
       - "69:69/udp"
       - "25150:25150/udp"
       - "${CLIENTPORT}:${CLIENTPORT}"
-    #expose:
-    #  - "${CLIENTPORT}"
-    #networks:
-    #  - default
