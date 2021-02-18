@@ -6,19 +6,6 @@ RUN dnf -y install dnf-plugins-core && \
     dnf -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm && \               
     dnf -y config-manager --set-enabled powertools
 
-
-# RUN yum install -y          \
-# # Dev dependencies
-#     git rsync make dnf-plugins-core     \
-#     epel-rpm-macros openssl mod_ssl python-sphinx   \
-#     python3-coverage python3-devel python3-distro         \
-#     python3-future python3-pyflakes python3-pycodestyle    \
-#     python3-setuptools python3-requests python3-sphinx rpm-build \
-#     python3-mod_wsgi python3-wheel python-coverage python-pip python3-pip \
-#     python36-coverage python36-distro python36-netaddr && \
-#     pip install coverage && pip3 install coverage
-
-
 RUN yum install -y          \
 # Dev dependencies
     git rsync make dnf-plugins-core     \
