@@ -1,12 +1,10 @@
 #! /bin/bash
 
 ## quick monkey patch for a missing file that prevents network systemd from starting.
-touch /etc/sysconfig/network
-mkdir /tmp/cas
+# touch /etc/sysconfig/network
+# mkdir /tmp/cas
 
-## cobbler tweaks
-# RUN  envsubst < /opt/augeas-modifications.augfile.template | tee /opt/augeas-modifications.augfile \
-#    && augtool -b -f /opt/augeas-modifications.augfile -s -e
+echo "configuring cobbler and apache config files"
 
 envsubst < /opt/augeas-modifications.augfile.template | tee /opt/augeas-modifications.augfile
 
@@ -14,8 +12,8 @@ augtool -b -f /opt/augeas-modifications.augfile -s -e
 
 
 ## create whitelist for accsss to web ui.
-cat /etc/cobbler/users.conf.template | envsubst > /etc/cobbler/users.conf
-cat /etc/cobbler/users.conf
+# cat /etc/cobbler/users.conf.template | envsubst > /etc/cobbler/users.conf
+# cat /etc/cobbler/users.conf
 
 ##
 ## apache customizations currently disabled, allow stock configuration to come up just using port ${CLIENTPORT}

@@ -9,7 +9,7 @@
 
 import_kickstart() {
 
-cp -v /opt/import/kickstart/* /var/lib/cobbler/kickstarts/
+cp -v /opt/import/kickstart/* /var/lib/cobbler/templates/
 }
 
 import_kickstart_snippets() {

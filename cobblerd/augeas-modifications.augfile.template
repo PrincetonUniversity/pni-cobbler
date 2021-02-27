@@ -1,10 +1,9 @@
 ## this file is given to augtool to make tweaks to files on the system.
 
 ##Tweaks for cobbler modules.conf file
-#set /files/etc/cobbler/modules.conf/authentication/module authn_passthru
-set /files/etc/cobbler/modules.conf/authentication/module authn_denyall
-#set /files/etc/cobbler/modules.conf/authorization/module authz_ownership
-set /files/etc/cobbler/modules.conf/authorization/module authz_allowall
+
+set /files/etc/cobbler/modules.conf/authentication/module authentication.denyall
+set /files/etc/cobbler/modules.conf/authorization/module authorization.allowall
 
 ## Tweaks for cobbler settings file.
 set /files/etc/cobbler/settings/pxe_just_once 1
@@ -17,4 +16,4 @@ set /files/etc/cobbler/settings/default_password_crypted ${DEFAULTROOTHASH}
 ## tweak apache to server data on port CLIENTPORT
 ## WARNING: THIS IS LIKELY TO BREAK IF APACHE UPDATES
 ## RECHECK DIRECTIVE USING COMMAND `augtool print /files/etc/httpd/conf/httpd.conf`
-set /files/etc/httpd/conf/httpd.conf/directive[2]/arg ${CLIENTPORT}
+#set /files/etc/httpd/conf/httpd.conf/directive[2]/arg ${CLIENTPORT}

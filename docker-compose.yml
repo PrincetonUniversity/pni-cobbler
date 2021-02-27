@@ -16,4 +16,4 @@ services:
     ports:
       - "69:69/udp"
       - "25150:25150/udp"
-      - "${CLIENTPORT}:${CLIENTPORT}"
+      - "${CLIENTPORT}:80"

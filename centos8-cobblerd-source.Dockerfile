@@ -49,15 +49,17 @@ RUN dnf -y install dnf-plugins-core && \
 RUN yum install -y          \
 # Runtime dependencies
     httpd python3-mod_wsgi python3-pymongo python3-PyYAML         \
-    python3-netaddr python3-simplejson python3-tornado        \
+    python3-netaddr python3-simplejson python3-tornado python3-pip    \
     python3-django python3-dns python3-ldap3 python3-cheetah python3-sphinx       \
     createrepo_c xorriso grub2-efi-ia32-modules grub2-efi-x64-modules   \
-    logrotate syslinux systemd-sysv tftp-server fence-agents
+    logrotate syslinux systemd-sysv tftp-server fence-agents && \
+    pip3 install bios
 
 ## secondary deps
 RUN yum -y install pykickstart tftp gettext augeas supervisor \
     p7zip p7zip-plugins wget curl python3-mod_wsgi && yum clean all \
     && mkdir -p /opt/cobbler-rpms/
+
 
 ## pull rpms from build step above.
 COPY --from=0 /usr/src/cobbler/rpm-build /opt/cobbler-rpms
@@ -72,18 +74,13 @@ COPY ./cobblerd/users.conf.template /etc/cobbler/users.conf.template
 ### Augeus config changes.
 COPY docker-entrypoint.sh /opt/docker-entrypoint.sh
 
-RUN mkdir -p /etc/supervisord/conf.d
+RUN mkdir -p /etc/supervisord/conf.d && rm /etc/httpd/conf.d/ssl.conf
 
 COPY ./supervisord/supervisord.conf /etc/supervisord.conf
 
 COPY ./supervisord/conf.d /etc/supervisord/conf.d
 
 RUN chmod +x /opt/docker-entrypoint.sh
-
-## remote access to this host will be handled via traefik
-# EXPOSE 69
-# EXPOSE 80
-
 
 CMD ["/opt/docker-entrypoint.sh"]
 
