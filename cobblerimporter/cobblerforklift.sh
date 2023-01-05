@@ -27,7 +27,9 @@ import_kickstart
 import_kickstart_snippets
 import_yamlconfigs
 
-cobbler get-loaders
+#cobbler get-loaders
+
+cobbler mkloaders
 
 cobbler sync
 

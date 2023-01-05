@@ -41,10 +41,12 @@ class cobblerInterface:
 
     def cobblerConnection(self):
         ## this just sets up the actual RPC connection so we can use this information in subsequent functions.
-        serverURL = f"http://{cobblerServer}:{cobblerPort}/cobbler_api"
-        # serverURL = f"http://127.0.0.1:25151/cobbler_api"
+        #serverURL = f"http://{cobblerServer}:{cobblerPort}/cobbler_api"
+        #serverURL = f"http://127.0.0.1:25151/cobbler_api"
+        serverURL = f"http://localhost/cobbler_api"
         self.serverHandle = xmlrpc.client.ServerProxy(serverURL)
-        self.sToken = self.serverHandle.login("", cobblerSystemToken)
+        #self.sToken = self.serverHandle.login("", cobblerSystemToken)
+        self.sToken = self.serverHandle.login("cobbler","cobbler")
         # return (serverHandle, sToken)
 
     def add_distro(self, dPath, distro_data):

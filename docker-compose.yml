@@ -1,4 +1,3 @@
-version: '3'
 services:
   cobblerd:
     restart: always
@@ -8,7 +7,7 @@ services:
     hostname: ${SERVICEHOSTNAME}
     build:
       context: .
-      dockerfile: 'centos8-cobblerd-source.Dockerfile'
+      dockerfile: 'centos9-cobblerd-epel.Dockerfile'
     volumes:
       - './cobblerdata:/opt/import'
       # - './cobblerdata-work:/opt/import'

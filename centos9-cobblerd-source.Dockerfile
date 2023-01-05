@@ -1,10 +1,9 @@
 # vim: ft=dockerfile
 
-FROM centos:8 AS builder
+FROM quay.io/centos/centos:stream9 AS builder
 
 RUN dnf -y install dnf-plugins-core && \
-    dnf -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm && \               
-    dnf -y config-manager --set-enabled powertools
+    dnf -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm 
 
 RUN yum install -y          \
 # Dev dependencies
@@ -12,7 +11,7 @@ RUN yum install -y          \
     epel-rpm-macros openssl mod_ssl  \
     python3-coverage python3-devel python3-distro python3-cheetah python3-future \
     python3-setuptools python3-requests rpm-build \
-    python3-mod_wsgi python3-wheel python3-pip python3-sphinx \
+    python3-mod_wsgi python3-pip \
     python3-coverage python3-distro python3-netaddr && \
     pip3 install coverage
 
@@ -21,8 +20,8 @@ RUN yum install -y          \
     httpd python3-mod_wsgi python3-pymongo python3-PyYAML         \
     python3-netaddr \
     python3-dns        \
-    createrepo_c xorriso grub2-efi-ia32-modules grub2-efi-x64-modules   \
-    logrotate syslinux systemd-sysv tftp-server fence-agents
+    createrepo_c xorriso grub2-efi-x64-modules   \
+    logrotate syslinux systemd-sysv tftp-server
 
 ## subfolder 'cobbler' is git clone of cobbler sourcecode.
 COPY ./cobbler /usr/src/cobbler
@@ -35,14 +34,13 @@ RUN /bin/bash -c "make rpms" && ls -ltha /usr/src/cobbler/rpm-build
 
 
 
-FROM centos:8
+FROM quay.io/centos/centos:stream9
 
 LABEL MAINTAINER="gmcgrath@princeton.edu<Garrett McGrath>"
 
 ## we need epel for the cobblerd service
 RUN dnf -y install dnf-plugins-core && \
-    dnf -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm && \               
-    dnf -y config-manager --set-enabled powertools
+    dnf -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm
 
 ## we'll be using tftp-server instead of xinet.d to handle those responsibilities. epel provides cobbler and mod_auth_cas
 
@@ -50,9 +48,9 @@ RUN yum install -y          \
 # Runtime dependencies
     httpd python3-mod_wsgi python3-pymongo python3-PyYAML         \
     python3-netaddr python3-simplejson python3-tornado python3-pip    \
-    python3-django python3-dns python3-ldap3 python3-cheetah python3-sphinx       \
-    createrepo_c xorriso grub2-efi-ia32-modules grub2-efi-x64-modules   \
-    logrotate syslinux systemd-sysv tftp-server fence-agents && \
+    python3-dns python3-ldap3 python3-cheetah       \
+    createrepo_c xorriso grub2-efi-x64-modules   \
+    logrotate syslinux systemd-sysv tftp-server && \
     pip3 install bios
 
 ## secondary deps
@@ -84,4 +82,4 @@ RUN chmod +x /opt/docker-entrypoint.sh
 
 CMD ["/opt/docker-entrypoint.sh"]
 
-COPY ./centos8-cobblerd-source.Dockerfile /centos8-cobblerd-source.Dockerfile
+COPY ./centos9-cobblerd-source.Dockerfile /centos9-cobblerd-source.Dockerfile

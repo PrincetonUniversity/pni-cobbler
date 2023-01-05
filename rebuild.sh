@@ -2,9 +2,9 @@
 
 ##rebuild cobbler server
 
-docker-compose down
+docker compose down
 
-docker-compose up -d --build
+docker compose up -d --build
 
-docker-compose logs -f
+docker compose logs -f
 
