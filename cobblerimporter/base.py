@@ -68,6 +68,14 @@ class cobblerInterface:
             os.path.join(f"{dPath}/{distro_data['initrd']}"),
             self.sToken,
         )
+        
+        ##absolutely brute force test of adding distro breed
+        self.serverHandle.modify_distro(
+            distro_id,
+            "Breed",
+            'redhat',
+            self.sToken,
+        )
 
         # this should be repurposed to a more generic ksmeta input.
         if distro_data["ksmeta"]:

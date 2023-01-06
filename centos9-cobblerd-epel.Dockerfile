@@ -28,6 +28,8 @@ COPY ./cobblerd/augeas-modifications.augfile.template /opt/
 ### Augeus config changes.
 COPY docker-entrypoint.sh /opt/docker-entrypoint.sh
 
+COPY ./cobblerd/settings-modified.yaml /etc/cobbler/settings.yaml
+
 RUN mkdir -p /etc/supervisord/conf.d
 
 COPY ./supervisord/supervisord.conf /etc/supervisord.conf
