@@ -6,10 +6,10 @@
 #set /files/etc/cobbler/modules.conf/authorization/module authorization.allowall
 
 ## Tweaks for cobbler settings file.
-set /files/etc/cobbler/settings.yaml/pxe_just_once 1
-set /files/etc/cobbler/settings.yaml/server ${SERVICEHOSTNAME}
+#set /files/etc/cobbler/settings.yaml/pxe_just_once 1
+#set /files/etc/cobbler/settings.yaml/server ${SERVICEHOSTNAME}
 #set /files/etc/cobbler/settings.yaml/client_use_https 0
-set /files/etc/cobbler/settings.yaml/http_port ${CLIENTPORT}
-set /files/etc/cobbler/settings.yaml/next_server ${TFTPSERVER}
-set /files/etc/cobbler/settings.yaml/default_password_crypted ${DEFAULTROOTHASH}
+#set /files/etc/cobbler/settings.yaml/http_port ${CLIENTPORT}
+#set /files/etc/cobbler/settings.yaml/next_server ${TFTPSERVER}
+#set /files/etc/cobbler/settings.yaml/default_password_crypted ${DEFAULTROOTHASH}
 

@@ -460,13 +460,13 @@ scm_push_script: "/bin/true"
 # if you have a server that appears differently to different subnets
 # (dual homed, etc), you need to read the --server-override section
 # of the manpage for how that works.
-server: 127.0.0.1
+server: 128.112.223.110
 
 # If set to true, all commands will be forced to use the localhost address
 # instead of using the above value which can force commands like
 # cobbler sync to open a connection to a remote address if one is in the
 # configuration and would traceback.
-client_use_localhost: false
+client_use_localhost: true
 
 # If set to "true", all commands to the API (not directly to the XMLRPC server) will go over HTTPS instead of plaintext.
 # Be sure to change the "http_port" setting to the correct value for the web server.
