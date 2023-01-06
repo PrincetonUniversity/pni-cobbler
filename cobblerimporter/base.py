@@ -72,7 +72,7 @@ class cobblerInterface:
         ##absolutely brute force test of adding distro breed
         self.serverHandle.modify_distro(
             distro_id,
-            "Breed",
+            "breed",
             'redhat',
             self.sToken,
         )

@@ -26,6 +26,8 @@ RUN pip3 install bios
 
 COPY ./cobblerd/augeas-modifications.augfile.template /opt/
 
+COPY ./cobblerd/settings-modified.yaml /etc/cobbler/settings.yaml
+
 #COPY ./cobblerd/users.conf.template /etc/cobbler/users.conf.template
 
 ### Augeus config changes.

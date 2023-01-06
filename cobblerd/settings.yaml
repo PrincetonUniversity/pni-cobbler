@@ -1,4 +1,4 @@
-# Cobbler settings file
+# Cobbler settings file - drawn from centos9 epel 3.3.3
 
 # Restart cobblerd and run "cobbler sync" after making changes.
 # This config file is in YAML 1.2 format; see "http://yaml.org".
@@ -74,7 +74,7 @@ bootloaders_formats:
       - net
       - ofnet
   x86_64-efi:
-    binary_name: grubx64.efi
+    binary_name: grubx86.efi
     extra_modules:
       - chain
       - efinet
@@ -127,13 +127,13 @@ bootloaders_modules:
   - gcry_rijndael
   - gcry_sha1
   - gcry_sha256
-syslinux_dir: '@@syslinux_dir@@'
-syslinux_memdisk_folder: '@@memdisk_folder@@'
-syslinux_pxelinux_folder: '@@pxelinux_folder@@'
-grub2_mod_dir: '@@grub_mod_folder@@'
-bootloaders_shim_folder: '@@shim_folder@@'
-bootloaders_shim_file: '@@shim_file@@'
-bootloaders_ipxe_folder: '@@ipxe_folder@@'
+syslinux_dir: '/usr/share/syslinux'
+syslinux_memdisk_folder: '/usr/share/syslinux'
+syslinux_pxelinux_folder: '/usr/share/syslinux'
+grub2_mod_dir: '/usr/lib/grub'
+bootloaders_shim_folder: '/boot/efi/EFI/*/'
+bootloaders_shim_file: 'shim[a-zA-Z0-9]*\.efi'
+bootloaders_ipxe_folder: '/usr/share/ipxe/'
 
 # Email out a report when Cobbler finishes installing a system.
 # enabled: set to true to turn this feature on
@@ -339,12 +339,8 @@ manage_dns: false
 # configuration files.
 bind_chroot_path: ""
 
-# bind_manage_ipmi - used to let bind manage IPMI addresses if the power management address is an IP and if manage_bind
-# is set.
-bind_manage_ipmi: true
-
 # set to path where zonefiles of bind/named server are located.
-bind_zonefile_path: "@@bind_zonefiles@@"
+bind_zonefile_path: "/var/named"
 
 # set to the ip address of the master bind DNS server for creating secondary
 # bind configuration files
@@ -356,17 +352,14 @@ bind_master: 127.0.0.1
 manage_forward_zones: []
 manage_reverse_zones: []
 
-# manage_genders - Bool to enable/disable managing an /etc/genders file for use with pdsh and others.
-manage_genders: false
-
 # set to true to enable Cobbler's TFTP management features.
 # the choice of TFTP management engine is in /etc/cobbler/modules.conf
 manage_tftpd: true
 
 # This variable contains the location of the tftpboot directory. If this directory is not present Cobbler does not
 # start.
-# Default: @@tftproot@@
-tftpboot_location: "@@tftproot@@"
+# Default: /var/lib/tftpboot
+tftpboot_location: "/var/lib/tftpboot"
 
 # set to true to enable Cobbler's RSYNC management features.
 manage_rsync: false
@@ -485,7 +478,7 @@ virt_auto_boot: true
 
 # Cobbler's web directory. Don't change this setting -- see the Wiki on "Relocating your Cobbler install" if your "/var"
 # partition is not large enough.
-webdir: "@@webroot@@/cobbler"
+webdir: "/var/www/cobbler"
 
 # Directories that will not get wiped and recreated on a "cobbler sync".
 webdir_whitelist:
@@ -577,50 +570,6 @@ puppet_version: 2
 signature_path: "/var/lib/cobbler/distro_signatures.json"
 signature_url: "https://cobbler.github.io/signatures/3.0.x/latest.json"
 
-# Set to "true" to enable Cobbler's dynamic DNS updates.
-nsupdate_enabled: false
-
-# define tsig key
-# please don't use this one, instead generate your own:
-#   dnssec-keygen -a HMAC-SHA512 -b 512 -n USER cobbler_update_key
-nsupdate_tsig_algorithm: "hmac-sha512"
-nsupdate_tsig_key: [ "cobbler_update_key.", "hvnK54HFJXFasHjzjEn09ASIkCOGYSnofRq4ejsiBHz3udVyGiuebFGAswSjKUxNuhmllPrkI0HRSSmM2qvZug==" ]
-
-# if set, enables logging to that file
-nsupdate_log: "/var/log/cobbler/nsupdate.log"
-
-# Set to true to enable the generation of Windows boot files in Cobbler.
-windows_enabled: false
-
-# Location of templates used for Windows
-windows_template_dir: "/etc/cobbler/windows"
-
-# Samba share name for distros
-samba_distro_share: "DISTRO"
-
-# Cobbler modules.conf replacement
-modules:
-  authentication:
-    module: "authentication.configfile"
-    hash_algorithm: "sha3_512"
-  authorization:
-    module: "authorization.allowall"
-  dns:
-    module: "managers.bind"
-  dhcp:
-    module: "managers.isc"
-  tftpd:
-    module: "managers.in_tftpd"
-  serializers:
-    module: "serializers.file"
-
-# mongodb.conf replacement
-mongodb:
-  host: "localhost"
-  port: 27017
-
-# This should contain the protocol over which the autointall-file is available.
-# Valid values are: http, https
-# This is setting does not setup your api for https it just changes the way the url for your profiles and systems are
-# generated.
-autoinstall_scheme: "http"
+# Include other configuration snippets. Overwriting a key from this file in a childfile will overwrite the value from
+# this file.
+include: [ "/etc/cobbler/settings.d/*.settings" ]
