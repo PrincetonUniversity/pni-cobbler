@@ -15,4 +15,19 @@ services:
     ports:
       - "69:69/udp"
       - "25150:25150/udp"
-      - "${CLIENTPORT}:80"
+      #- "${CLIENTPORT}:80"
+    environment:
+      - TZ=America/New_York
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.cobblerd-http.entrypoints=http"
+      - "traefik.http.routers.cobblerd-https.entrypoints=https"
+      - "traefik.http.routers.cobblerd-https.tls=true"
+      - "traefik.http.routers.cobblerd-https.tls.certresolver=letsencrypt-resolver"
+      - "traefik.http.routers.cobblerd-http.middlewares=cobblerd-redirectscheme@docker"
+      - "traefik.http.routers.cobblerd-http.rule=Host(`${SERVICEHOSTNAME}`)"
+      - "traefik.http.routers.cobblerd-https.rule=Host(`${SERVICEHOSTNAME}`)"
+      - "traefik.http.middlewares.cobblerd-redirectscheme.redirectscheme.scheme=https"
+      - "traefik.http.middlewares.cobblerd-redirectscheme.redirectscheme.permanent=true"
+      - "traefik.http.services.cobblerd.loadbalancer.server.port=80"
+      - "traefik.docker.network=proxy"
