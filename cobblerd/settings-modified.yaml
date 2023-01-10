@@ -74,7 +74,7 @@ bootloaders_formats:
       - net
       - ofnet
   x86_64-efi:
-    binary_name: grubx86.efi
+    binary_name: grubx64.efi
     extra_modules:
       - chain
       - efinet
@@ -223,7 +223,7 @@ default_virt_type: xenpv
 # and if a profile/system is configured to boot via iPXE it will
 # chain load off pxelinux.0.
 # Default: false
-enable_ipxe: false
+enable_ipxe: true
 
 # controls whether Cobbler will add each new profile entry to the default
 # PXE boot menu.  This can be over-ridden on a per-profile
@@ -460,7 +460,7 @@ scm_push_script: "/bin/true"
 # if you have a server that appears differently to different subnets
 # (dual homed, etc), you need to read the --server-override section
 # of the manpage for how that works.
-server: 128.112.223.110
+server: cobblerd.pni.princeton.edu
 
 # If set to true, all commands will be forced to use the localhost address
 # instead of using the above value which can force commands like

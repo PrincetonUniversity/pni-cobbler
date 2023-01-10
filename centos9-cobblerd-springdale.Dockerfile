@@ -15,9 +15,10 @@ http://springdale.princeton.edu/data/springdale/unsupported/9.1/x86_64/cobbler-t
 #RUN yum install -y cobbler cobbler-tests
 
 ## secondary deps
-RUN yum -y install pykickstart tftp augeas supervisor syslinux \
+RUN yum -y install less pykickstart tftp augeas supervisor syslinux \
     shim-x64 shim-ia32 grub2-efi-x64 ipxe-bootimgs ipxe-bootimgs-aarch64 \
-    p7zip p7zip-plugins python3-pip dnf-plugins-core && yum clean all
+    p7zip p7zip-plugins python3-pip dnf-plugins-core && yum clean all \
+    && cp -v /boot/efi/EFI/centos/*.efi /var/lib/cobbler/loaders/ 
 
 RUN pip3 install bios
 
