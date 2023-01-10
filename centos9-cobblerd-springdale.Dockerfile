@@ -7,17 +7,18 @@ LABEL MAINTAINER="gmcgrath@princeton.edu<Garrett McGrath>"
 RUN dnf -y install dnf-plugins-core && \
     dnf -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm
 
-RUN dnf install -y http://springdale.princeton.edu/data/springdale/unsupported/9.1/x86_64/cobbler-3.3.3-2.sdl9.2.noarch.rpm \
-http://springdale.princeton.edu/data/springdale/unsupported/9.1/x86_64/cobbler-tests-3.3.3-2.sdl9.2.noarch.rpm
+RUN dnf install -y http://springdale.princeton.edu/data/springdale/unsupported/9.1/x86_64/cobbler-3.3.3-2.sdl9.3.noarch.rpm \
+http://springdale.princeton.edu/data/springdale/unsupported/9.1/x86_64/cobbler-tests-3.3.3-2.sdl9.3.noarch.rpm
 
 ## we'll be using tftp-server instead of xinet.d to handle those responsibilities. epel provides cobbler and mod_auth_cas
 
 #RUN yum install -y cobbler cobbler-tests
 
 ## secondary deps
-RUN yum -y install pykickstart tftp augeas supervisor syslinux \
+RUN yum -y install less pykickstart tftp augeas supervisor syslinux \
     shim-x64 shim-ia32 grub2-efi-x64 ipxe-bootimgs ipxe-bootimgs-aarch64 \
-    p7zip p7zip-plugins python3-pip dnf-plugins-core && yum clean all
+    p7zip p7zip-plugins python3-pip dnf-plugins-core && yum clean all \
+    && cp -v /boot/efi/EFI/centos/*.efi /var/lib/cobbler/loaders/ 
 
 RUN pip3 install bios
 
