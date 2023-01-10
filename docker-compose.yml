@@ -14,6 +14,7 @@ services:
       - './cobblerimporter:/opt/cobblerimporter'
     ports:
       - "69:69/udp"
+      - "69:69/tcp"
       - "25150:25150/udp"
       #- "${CLIENTPORT}:80"
     environment:
