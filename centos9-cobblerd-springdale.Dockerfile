@@ -12,13 +12,17 @@ http://springdale.princeton.edu/data/springdale/unsupported/9.1/x86_64/cobbler-t
 
 ## we'll be using tftp-server instead of xinet.d to handle those responsibilities. epel provides cobbler and mod_auth_cas
 
+## install grub deps.
+RUN dnf install -y grub2-efi-aa64-modules grub2-efi-x64-cdboot grub2-efi-x64-modules \
+  grub2-pc grub2-pc-modules grub2-tools-efi grub2-tools-extra
+
 #RUN yum install -y cobbler cobbler-tests
 
 ## secondary deps
-RUN yum -y install less pykickstart tftp augeas supervisor syslinux \
+RUN dnf -y install less pykickstart tftp augeas supervisor syslinux \
     shim-x64 shim-ia32 grub2-efi-x64 ipxe-bootimgs ipxe-bootimgs-aarch64 \
-    p7zip p7zip-plugins python3-pip dnf-plugins-core && yum clean all \
-    && cp -v /boot/efi/EFI/centos/*.efi /var/lib/cobbler/loaders/ 
+    p7zip p7zip-plugins python3-pip dnf-plugins-core && dnf clean all 
+#    && cp -v /boot/efi/EFI/centos/*.efi /var/lib/cobbler/loaders/ 
 
 RUN pip3 install bios
 
