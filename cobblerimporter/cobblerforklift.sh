@@ -8,8 +8,9 @@
 # * add envsub handling so that in place replacements can be performed if need be may be easier to do globally than using ksmeta.
 
 import_kickstart() {
-
-cp -v /opt/import/kickstart/* /var/lib/cobbler/templates/
+mkdir /var/lib/cobbler/kickstarts
+cp -v /opt/import/kickstart/* /var/lib/cobbler/kickstarts/
+#cp -v /opt/import/kickstart/* /var/lib/cobbler/templates/
 }
 
 import_kickstart_snippets() {

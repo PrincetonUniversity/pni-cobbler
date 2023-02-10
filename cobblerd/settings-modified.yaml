@@ -564,7 +564,7 @@ iso_template_dir: "/etc/cobbler/iso"
 
 # Puppet
 puppet_server: ""
-puppet_version: 2
+puppet_version: 7
 
 # Signatures
 signature_path: "/var/lib/cobbler/distro_signatures.json"
