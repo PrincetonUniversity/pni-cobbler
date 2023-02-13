@@ -127,7 +127,7 @@ class cobblerInterface:
             profile_id, "distro", pDict["distro"], self.sToken
         )
         self.serverHandle.modify_profile(
-            profile_id, "kickstart", pDict["kickstart"], self.sToken
+            profile_id, "autoinstall", pDict["kickstart"], self.sToken #should be autoinstall?
         )
         self.serverHandle.save_profile(profile_id, self.sToken)
 

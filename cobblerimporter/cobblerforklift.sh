@@ -9,8 +9,7 @@
 
 import_kickstart() {
 mkdir /var/lib/cobbler/kickstarts
-cp -v /opt/import/kickstart/* /var/lib/cobbler/kickstarts/
-#cp -v /opt/import/kickstart/* /var/lib/cobbler/templates/
+cp -vf /opt/import/kickstart/* /var/lib/cobbler/templates/
 }
 
 import_kickstart_snippets() {
@@ -26,9 +25,11 @@ _main() {
 sleep 5
 import_kickstart
 import_kickstart_snippets
-import_yamlconfigs
 
-#cobbler get-loaders
+#required to import kickstarts before 
+cobbler mkloaders
+
+import_yamlconfigs
 
 cobbler mkloaders
 
